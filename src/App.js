@@ -22,7 +22,7 @@ function App() {
       console.error(err);
     }
   };
-  const submitMovieDetails = async () => {
+  const addMovieDetails = async () => {
     try {
       const data = await addDoc(moviesCollectionRef, {
         title: movieName,
@@ -69,7 +69,7 @@ function App() {
           value={movieRate}
           onChange={(e) => setMovieRate(e.target.value)}
         />
-        <button style={{ cursor: "pointer" }} onClick={submitMovieDetails}>
+        <button style={{ cursor: "pointer" }} onClick={addMovieDetails}>
           Submit
         </button>
       </div>
