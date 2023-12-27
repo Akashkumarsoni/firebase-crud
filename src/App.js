@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import AuthComponent from "./components/auth";
 import { db } from "./config/firebase";
-import { getDocs, collection, addDoc, deleteDoc,updateDoc, doc } from "firebase/firestore";
+import { getDocs, collection, addDoc, deleteDoc,updateDoc, doc, setDoc } from "firebase/firestore";
 function App() {
   const moviesCollectionRef = collection(db, "movies");
   const [listData, setListData] = useState([]);
@@ -22,7 +22,7 @@ function App() {
       console.error(err);
     }
   };
-  const addMovieDetails = async () => {
+  const addMovieDetailsbyNormalId = async () => {
     try {
       const data = await addDoc(moviesCollectionRef, {
         title: movieName,
@@ -35,6 +35,19 @@ function App() {
       console.error(err);
     }
   };
+   const addMovieDetailsByCustomId = async () => {
+     try {
+     const data = await setDoc(doc(db, "movies", "akashsoni"), {
+       title: movieName,
+       hero: movieHero,
+       rating: movieRate,
+     });
+       console.log("fetched data ", data);
+       getMovieList();
+     } catch (err) {
+       console.error(err);
+     }
+   };
   const deleteData = async (id) => {
     let movieDoc = doc(db, "movies", id);
     await deleteDoc(movieDoc);
@@ -69,7 +82,7 @@ function App() {
           value={movieRate}
           onChange={(e) => setMovieRate(e.target.value)}
         />
-        <button style={{ cursor: "pointer" }} onClick={addMovieDetails}>
+        <button style={{ cursor: "pointer" }} onClick={addMovieDetailsbyNormalId}>
           Submit
         </button>
       </div>
